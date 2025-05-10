@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    color: #333;
+    line-height: 1.6;
+    font-size: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  header {
+    background-color: #003366;
+    color: white;
+    padding: 15px 0;
+    position: relative;
+    z-index: 1000;
+    font-size: 28px;
+  }
+  
+  .container {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    height: 120px;
+  }
+
+  nav {
+    display: flex;
+    background-color: #1a3e72;
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 0;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding-right: 20px;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  nav a:hover {
+    background-color: #2a4e82; 
+  }
+
+  nav a.current {
+    background-color: #0d2b57; 
+    font-weight: 900;
+  }
+
+/* для каждой ссылки в навигации, кроме последней */
+  nav a:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background-color: rgba(255,255,255,0.2);
+  }
+
+  nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  main {
+    padding: 30px;
+    flex: 1;
+  }
+  
+  .text {
+    max-width: 1200px;
+    min-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  footer {
+    background: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+  }
+  
+/* кнопка наверх */
+  .to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ee9917;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #333;
+  }

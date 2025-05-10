@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>О компании - КГК</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon-32x32.png">
+  <link rel="icon" href="favicon-16x16.png">
+  <style>
+/* направления деятельности */
+    .activities-section {
+      margin-bottom: 3rem;
+      margin-top: 30px;
+    }
+    
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .activity-card {
+      background: white;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .activity-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .activity-card h3 {
+      color: #333;
+      margin-top: 0;
+    }
+
+/* история компании */
+    .history-section {
+      background-color: #f2f2f2;
+      padding: 60px 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .section-title {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 50px;
+      font-size: 36px;
+      position: relative;
+    }
+
+/* временная шкала истории */
+    .history-timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+
+/* псевдоэлемент с линией таймлайна */
+    .history-timeline:before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      background-color: #003366;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+      border-radius: 3px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(odd){
+      left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+    }
+
+    .timeline-year {
+      position: absolute;
+      width: 120px;
+      background: #ee9917;
+      color: white;
+      text-align: center;
+      padding: 8px 0;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 18px;
+      top: 20px;
+    }
+
+    /* нечетные элементы класса слева от линии */
+    .timeline-item:nth-child(odd) .timeline-year {
+      right: -140px;
+    }
+
+    /* четные элементы класса справа от линии */
+    .timeline-item:nth-child(even) .timeline-year {
+      left: -140px;
+    }
+
+    .timeline-content {
+      padding: 20px 30px;
+      background: white;
+      position: relative;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-left: 3px solid #003366;
+    }
+
+    /* красивая граница у четных элементов справа */
+    .timeline-item:nth-child(even) .timeline-content {
+      border-left: none;
+      border-right: 3px solid #003366;
+    }
+
+    .timeline-content h3 {
+      color: #003366;
+      margin-top: 0;
+    }
+
+    .timeline-image {
+      margin: 15px -30px -20px -30px;
+      overflow: hidden;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .timeline-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s;
+    }
+
+    .timeline-image:hover img {
+      transform: scale(1.03);
+    }
+
+/* подробнее о истории компании */
+    .history-more {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: #003366;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 700;
+      transition: all 0.3s;
+      border: 2px solid #003366;
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: #1a3e72;
+    }
+/* изображение в начале страницы */
+    .main-image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <img src="images/logo.png" class="logo" />
+      <nav>
+        <a href="index.html" class="current">О компании</a>
+        <a href="news.html">Новости</a>
+        <a href="currency.html">Курс валют</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="video.html">Видео</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="text">
+      <section>
+        <h1>О компании</h1>
+        <p><b>Курганская генерирующая компания</b> — ведущий производитель тепловой энергии в Курганской области. Основана в <u>2005 году</u>, компания обеспечивает теплоснабжение и горячее водоснабжение жителей региона.</p>
+
+        <p><em>Основатели:</em> Министерство энергетики РФ и администрация Курганской области.</p>
+      </section>
+        
+      <img src="images/main.jpg" class="main-image" />
+
+      <section class="activities-section">
+        <h2>Направления деятельности</h2>
+        <div class="activities-grid">
+          <div class="activity-card">
+            <h3>Электроэнергетика</h3>
+            <p>Производство и распределение электрической энергии</p>
+          </div>
+          <div class="activity-card">
+            <h3>Теплоэнергетика</h3>
+            <p>Производство и передача тепловой энергии</p>
+          </div>
+          <div class="activity-card">
+            <h3>Техническое обслуживание</h3>
+            <p>Обслуживание энергетического оборудования</p>
+          </div>
+          <div class="activity-card">
+            <h3>Развитие инфраструктуры</h3>
+            <p>Модернизация и строительство энергообъектов</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="history-section">
+      <div class="container">
+          <h2 class="section-title">История Курганской генерирующей компании</h2>
+          
+          <div class="history-timeline">
+              <div class="timeline-item">
+                  <div class="timeline-year">Конец XIX века</div>
+                  <div class="timeline-content">
+                      <h3>Начало энергетики Кургана</h3>
+                      <p>Первые электростанции в Кургане появились в конце XIX века, это были маломощные энергоустановки, обеспечивающие электроэнергией отдельные небольшие предприятия.</p>
+                      <div class="timeline-image">
+                          <img src="images\history1.jpg" alt="Первая турбина ТЭЦ Кургана">
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="timeline-item">
+                  <div class="timeline-year">1956</div>
+                  <div class="timeline-content">
+                      <h3>Энергетический рывок</h3>
+                      <p>Запуск первой Курганской ТЭЦ 4 ноября, он позволил кардинально решить вопрос с энергоснабжением региона </p>
+                  </div>
+              </div>
+              
+              <div class="timeline-item">
+                  <div class="timeline-year">2006</div>
+                  <div class="timeline-content">
+                      <h3>Создание КГК</h3>
+                      <p>
+                        Публичное акционерное общество «Курганская генерирующая компания» образовано 1 июля 2006 года в рамках государственной реформы 
+                        энергетики путем выделения генерирующих активов из ОАО «Курганэнерго».
+                      </p>
+                  </div>
+              </div>
+              
+              <div class="timeline-item">
+                  <div class="timeline-year">2010 - н.в.</div>
+                  <div class="timeline-content">
+                      <h3>Модернизация и развитие</h3>
+                      <p>
+                        В 2010 году сформировано новое структурное подразделение – «Тепловые сети», на обслуживании которого сегодня находятся все магистральные, 
+                        распределительные и разводящие тепловые сети, которые поставляют тепловую энергию от трех Курганских ТЭЦ.
+                      </p>
+                      <div class="timeline-image">
+                          <img src="images\history2.jpg" alt="Современное оборудование КГК">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="history-more">
+              <a href="https://kgk-kurgan.ru/company/" class="btn btn-primary">Подробнее об истории компании</a>
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#top" class="to-top">Наверх</a>
+
+  <footer>
+    © 2025 Курганская генерирующая компания
+  </footer>
+</body>
+</html>
