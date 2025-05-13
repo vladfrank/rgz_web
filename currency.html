@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Курс азербайджанского маната к рублю</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon-32x32.png">
+  <link rel="icon" href="favicon-16x16.png">
+  <style>
+    .calculator {
+      display: flex;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .converter {
+      flex: 1;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    input {
+      padding: 8px;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .chart-container {
+      height: 400px;
+      margin: 40px 0;
+    }
+    .info-box {
+      padding: 15px;
+      background: #f0f7ff;
+      border-left: 4px solid #1a3e72;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <img src="images/logo.png" class="logo" />
+      <nav>
+        <a href="index.html">О компании</a>
+        <a href="news.html">Новости</a>
+        <a href="currency.html" class="current">Курс валют</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="video.html">Видео</a>
+      </nav>
+    </div>
+  </header>
+  <main class="text">
+    <h1>Курс азербайджанского маната к рублю</h1>
+    
+    <div class="info-box">
+      Текущий курс: <span id="currentRate">загрузка...</span>
+    </div>
+    
+    <div class="calculator">
+      <div class="converter">
+        <h3>Рубли в манаты</h3>
+        <input type="number" id="rubAmount" value="1000">
+        <button onclick="convertRubToAzn()" class="toggle-btn">Конвертировать</button>
+        <div id="aznResult" style="margin-top: 10px;"></div>
+      </div>
+      
+      <div class="converter">
+        <h3>Манаты в рубли</h3>
+        <input type="number" id="aznAmount" value="10">
+        <button onclick="convertAznToRub()" class="toggle-btn">Конвертировать</button>
+        <div id="rubResult" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+    
+    <h2>Динамика курса за последний месяц</h2>
+    <div class="chart-container">
+      <canvas id="rateChart"></canvas>
+    </div>
+    <div class="info-box" id="chartInfo">
+      Кликните на столбец графика, чтобы увидеть детали
+    </div>
+  </main>
+
+  <a href="#top" class="to-top">Наверх</a>
+
+  <footer>
+    © 2025 Курганская генерирующая компания
+  </footer>
+
+  <script>
+    const currencyCode = 'AZN';
+    let currentRate = 0;
+    let rateChart = null;
+
+    // Основная функция загрузки данных
+    async function loadData() {
+      try {
+        // Загрузка текущего курса
+        const currentResponse = await fetch('https://www.cbr-xml-daily.ru/daily_json.js');
+        const currentData = await currentResponse.json();
+        currentRate = currentData.Valute[currencyCode].Value / currentData.Valute[currencyCode].Nominal;
+        document.getElementById('currentRate').textContent = `1 AZN = ${currentRate.toFixed(4)} RUB`;
+        
+        // Загрузка исторических данных
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setMonth(endDate.getMonth() - 1);
+        
+        const dates = [];
+        const rates = [];
+        let daysLoaded = 0;
+        
+        // Загружаем данные за последние 30 дней
+        for (let i = 0; i < 30; i++) {
+          const date = new Date();
+          date.setDate(endDate.getDate() - i);
+          const dateStr = date.toISOString().slice(0, 10);
+          
+          try {
+            const response = await fetch(`https://www.cbr-xml-daily.ru/archive/${dateStr.replace(/-/g, '/')}/daily_json.js`);
+            const data = await response.json();
+            const rate = data.Valute[currencyCode].Value / data.Valute[currencyCode].Nominal;
+            dates.unshift(dateStr); // Добавляем в начало для правильного порядка
+            rates.unshift(rate);
+            daysLoaded++;
+          } catch (error) {
+            console.log(`Данные за ${dateStr} недоступны`);
+          }
+        }
+        
+        if (daysLoaded > 0) {
+          renderChart(dates, rates);
+        } else {
+          throw new Error('Не удалось загрузить данные за последний месяц');
+        }
+      } catch (error) {
+        console.error('Ошибка:', error);
+        document.getElementById('chartInfo').textContent = 
+          'Не удалось загрузить данные. Пожалуйста, обновите страницу позже.';
+      }
+    }
+
+    // Отрисовка графика
+    function renderChart(dates, rates) {
+      const ctx = document.getElementById('rateChart').getContext('2d');
+      
+      if (rateChart) {
+        rateChart.destroy();
+      }
+      
+      rateChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: dates,
+          datasets: [{
+            label: 'Курс AZN/RUB',
+            data: rates,
+            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              min: 45,
+              title: {
+                display: true,
+                text: 'Курс (RUB)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Дата'
+              }
+            }
+          },
+          onClick: (e, elements) => {
+            if (elements.length > 0) {
+              const index = elements[0].index;
+              document.getElementById('chartInfo').innerHTML = `
+                <strong>Дата:</strong> ${dates[index]}<br>
+                <strong>Курс:</strong> 1 AZN = ${rates[index].toFixed(4)} RUB
+              `;
+              
+              // Выделяем выбранный столбец
+              const newBackgroundColors = rates.map((_, i) => 
+                i === index ? 'rgba(255, 99, 132, 0.7)' : 'rgba(54, 162, 235, 0.7)'
+              );
+              
+              rateChart.data.datasets[0].backgroundColor = newBackgroundColors;
+              rateChart.update();
+            }
+          }
+        }
+      });
+    }
+
+    // Функции конвертации
+    function convertRubToAzn() {
+      const rub = parseFloat(document.getElementById('rubAmount').value);
+      if (!isNaN(rub) && currentRate > 0) {
+        document.getElementById('aznResult').textContent = `${(rub / currentRate).toFixed(2)} AZN`;
+      }
+    }
+
+    function convertAznToRub() {
+      const azn = parseFloat(document.getElementById('aznAmount').value);
+      if (!isNaN(azn) && currentRate > 0) {
+        document.getElementById('rubResult').textContent = `${(azn * currentRate).toFixed(2)} RUB`;
+      }
+    }
+
+    // Инициализация при загрузке страницы
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      
+      // Обработчики ввода
+      document.getElementById('rubAmount').addEventListener('input', convertRubToAzn);
+      document.getElementById('aznAmount').addEventListener('input', convertAznToRub);
+    });
+  </script>
+</body>
+</html>
